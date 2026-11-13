@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { ManualCaseBundleSchema } from '../src/schema/testcase.js';
+import { ManualCaseBundleSchema, flattenCases } from '../src/schema/testcase.js';
 
 function main() {
   const file = path.resolve(process.argv[2] ?? 'artifacts/testcases/latest.json');
@@ -14,12 +14,14 @@ function main() {
     console.error(JSON.stringify({ error: 'schema_invalid', issues: parsed.error.issues }));
     process.exit(1);
   }
-  const acMissing = parsed.data.cases.filter((c) => !c.acRef);
+  const cases = flattenCases(parsed.data);
+  const acMissing = cases.filter((c) => !c.acRef);
   console.log(
     JSON.stringify({
       ok: true,
       path: file,
-      caseCount: parsed.data.cases.length,
+      scenarioCount: parsed.data.scenarios?.length ?? 0,
+      caseCount: cases.length,
       open_questions: parsed.data.open_questions,
       acMissing: acMissing.map((c) => c.id),
     }),

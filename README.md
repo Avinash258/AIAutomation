@@ -93,8 +93,9 @@ Prompt source of truth: [`prompt-library/INDEX.md`](prompt-library/INDEX.md)
 | `npm run ai:ado-login` | Entra browser login (no PAT) |
 | `npm run ai:flow -- --pbi <id>` | Preflight + fetch; stops at GATE a |
 | `npm run ai:fetch-pbi -- <id>` | Compact PBI → `artifacts/pbi/` |
-| `npm run ai:gen-cases` | Cases from PBI ACs (or Expected if AC empty) |
-| `npm run ai:validate-cases` | Zod-validate case bundle |
+| `npm run ai:gen-cases` | Scenarios + cases from PBI ACs (or Expected if AC empty) |
+| `npm run ai:validate-cases` | Zod-validate scenarios/cases |
+| `npm run ai:export-excel` | Excel: `artifacts/testcases/PBI-<id>-manual-tests.xlsx` |
 | `npm run ai:publish-plan -- --dry-run` | Publish preview (default) |
 | `npm run ai:publish-plan -- --apply` | Real publish after GATE (a) |
 | `npm run ai:analyze-site -- <url>` | CLI snapshot + prune → page-model |

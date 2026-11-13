@@ -8,28 +8,38 @@ SDET designing **manual UI** test cases from PBI acceptance criteria.
 - Optional: `docs/business-context.md` ≤200 lines
 
 ## Output schema
-Write `artifacts/testcases/latest.json`:
+Write `artifacts/testcases/latest.json` with **scenarios** and **cases under each scenario**:
 ```json
 {
   "pbiId": 0,
   "pbiTitle": "",
-  "cases": [{
-    "id": "TC-001",
-    "title": "",
-    "pbiId": 0,
-    "acRef": "AC1",
+  "scenarios": [{
+    "id": "SC-001",
+    "title": "Scenario name",
+    "description": "What this scenario covers",
+    "acRefs": ["AC1"],
     "priority": "P0",
-    "type": "positive",
-    "preconditions": [],
-    "steps": [{ "action": "", "expected": "" }],
-    "testData": {},
-    "automationCandidate": true,
-    "layer": "ui"
+    "cases": [{
+      "id": "TC-001",
+      "title": "",
+      "pbiId": 0,
+      "acRef": "AC1",
+      "priority": "P0",
+      "type": "positive",
+      "preconditions": [],
+      "steps": [{ "action": "", "expected": "" }],
+      "testData": {},
+      "automationCandidate": true,
+      "layer": "ui",
+      "scenarioId": "SC-001"
+    }]
   }],
   "open_questions": [],
   "contentHash": ""
 }
 ```
+After writing: `npm run ai:export-excel` → Excel at `artifacts/testcases/PBI-<id>-manual-tests.xlsx`
+(sheets: Test Scenarios, Test Cases, Steps Detail).
 
 ## Rules
 - Cover positive, negative, boundary, validation, permission, accessibility where AC implies them.

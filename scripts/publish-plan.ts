@@ -10,7 +10,7 @@ import {
   upsertTestCase,
   type PublishResult,
 } from '../src/ado/testplan.js';
-import { ManualCaseBundleSchema } from '../src/schema/testcase.js';
+import { ManualCaseBundleSchema, flattenCases } from '../src/schema/testcase.js';
 import { logUsage } from '../src/usage/logger.js';
 import { log } from '../src/logging/logger.js';
 
@@ -25,6 +25,7 @@ async function main() {
   if (!fs.existsSync(file)) throw new Error(`Missing ${file}`);
 
   const bundle = ManualCaseBundleSchema.parse(JSON.parse(fs.readFileSync(file, 'utf8')));
+  const cases = flattenCases(bundle);
   const planId = Number(process.env.ADO_TEST_PLAN_ID);
   const suiteId = Number(process.env.ADO_TEST_SUITE_ID);
   const open_questions: string[] = [];
@@ -46,7 +47,7 @@ async function main() {
   const results: PublishResult[] = [];
 
   if (dryRun) {
-    for (const c of bundle.cases) {
+    for (const c of cases) {
       const hash = caseContentHash(c);
       results.push({
         localId: c.id,
@@ -56,7 +57,7 @@ async function main() {
     }
   } else {
     const client = new AdoClient(loadAdoConfig());
-    for (const c of bundle.cases) {
+    for (const c of cases) {
       const r = await upsertTestCase(client, c, false);
       if (r.adoId) {
         await addToSuite(client, planId, suiteId, r.adoId);
