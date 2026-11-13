@@ -1,0 +1,38 @@
+{
+  "name": "ai-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "M1: ADO PBI → manual cases → Test Plan → site analysis → Playwright UI specs (GitHub Copilot)",
+  "scripts": {
+    "test": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier -w .",
+    "ai:ado-login": "tsx scripts/ado-login.ts",
+    "ai:fetch-pbi": "tsx scripts/fetch-pbi.ts",
+    "ai:gen-cases": "tsx scripts/gen-cases-from-pbi.ts",
+    "ai:gen-cases-shell": "tsx scripts/gen-cases-stub.ts",
+    "ai:publish-plan": "tsx scripts/publish-plan.ts",
+    "ai:analyze-site": "tsx scripts/analyze-site.ts",
+    "ai:validate-cases": "tsx scripts/validate-cases.ts",
+    "ai:traceability": "tsx scripts/traceability.ts",
+    "ai:usage": "tsx scripts/log-usage.ts",
+    "ai:flow": "tsx scripts/ai-flow.ts",
+    "ai:heal-context": "tsx scripts/heal-context.ts",
+    "ai:save-auth": "tsx scripts/save-storage-state.ts",
+    "ai:load-sample-pbi": "tsx scripts/load-sample-pbi.ts"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@azure/identity": "^4.14.1",
+    "@playwright/cli": "^0.1.23",
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^22.13.10",
+    "dotenv": "^16.4.7",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "zod": "^3.24.2"
+  }
+}

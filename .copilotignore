@@ -1,0 +1,10 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.playwright-cli/
+.env
+artifacts/snapshots/
+.cache/
+storage-state.json
+*.log

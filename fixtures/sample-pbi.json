@@ -1,0 +1,25 @@
+{
+  "id": 1001,
+  "rev": 3,
+  "type": "Product Backlog Item",
+  "title": "User can sign in and view order history",
+  "state": "Active",
+  "description": "As a registered customer I want to sign in and see my recent orders so I can track deliveries.",
+  "acceptanceCriteria": "AC1: Valid email and password signs the user in and lands on Home. AC2: Invalid password shows an error and does not navigate away. AC3: Authenticated user can open Order History and see at least order id and status. AC4: Sign-out returns the user to the sign-in page.",
+  "acceptanceCriteriaList": [
+    "AC1: Valid email and password signs the user in and lands on Home.",
+    "AC2: Invalid password shows an error and does not navigate away.",
+    "AC3: Authenticated user can open Order History and see at least order id and status.",
+    "AC4: Sign-out returns the user to the sign-in page."
+  ],
+  "priority": 2,
+  "tags": ["auth", "orders"],
+  "areaPath": "Demo\\QA",
+  "iterationPath": "Demo\\Sprint 1",
+  "parent": {
+    "id": 900,
+    "title": "Customer account experience",
+    "type": "Feature"
+  },
+  "contentHash": "sample-offline-pbi-1001"
+}

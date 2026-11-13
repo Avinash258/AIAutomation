@@ -1,0 +1,27 @@
+# CI: Playwright only — zero LLM calls
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+  - script: npm ci
+    displayName: Install dependencies
+  - script: npx playwright install chromium --with-deps
+    displayName: Install browsers
+  - script: npx playwright test
+    displayName: Run Playwright tests
+    env:
+      CI: 'true'
+      UI_BASE_URL: $(UI_BASE_URL)
+      ALLOWED_BASE_URLS: $(ALLOWED_BASE_URLS)
+      APP_ENV: $(APP_ENV)
+  - task: PublishPipelineArtifact@1
+    condition: always()
+    inputs:
+      targetPath: playwright-report
+      artifact: playwright-report
