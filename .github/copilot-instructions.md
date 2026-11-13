@@ -29,3 +29,4 @@ Stack: Playwright TypeScript, zod, dotenv, ADO REST. Platform: GitHub Copilot in
 
 ## Skills / prompts
 Load from `prompt-library/INDEX.md`. Skills live in `.github/skills/*/SKILL.md`. If skills do not auto-load, open the SKILL.md / prompt-library file explicitly.
+Workflow diagrams: `docs/WORKFLOW.md` and `README.md`.
