@@ -1,5 +1,7 @@
 # M1 Workflow & Architecture
 
+STLC agents (UC-01..UC-10): see [`STLC-AGENTS-CATALOG.md`](./STLC-AGENTS-CATALOG.md).
+
 ## End-to-end pipeline
 
 ```mermaid

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Understand-Anything — Cursor + VS Code Guide (AIAutomation)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f3efe6;
+      --bg-2: #e8e1d4;
+      --ink: #1a1f1c;
+      --muted: #5c655e;
+      --card: #fffcf7;
+      --line: #cfc6b6;
+      --accent: #0f6b4c;
+      --accent-2: #c45c26;
+      --code-bg: #1e2421;
+      --code-fg: #e8efe9;
+      --radius: 12px;
+      --shadow: 0 12px 40px rgba(26, 31, 28, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #dfece4 0%, transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, #f0e0d4 0%, transparent 50%),
+        var(--bg);
+      line-height: 1.55;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    header.hero {
+      padding: 2.25rem 0 1.5rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 2rem;
+    }
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-family: Fraunces, Georgia, serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.15;
+      margin: 0 0 0.75rem;
+      font-weight: 700;
+    }
+    .lede { color: var(--muted); font-size: 1.05rem; max-width: 44rem; margin: 0; }
+    nav.toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1.5rem 0 0;
+    }
+    nav.toc a {
+      text-decoration: none;
+      color: var(--ink);
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 0 0 1rem;
+    }
+    .tabs button {
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .tabs button.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.4rem;
+      margin: 1.1rem 0;
+      box-shadow: var(--shadow);
+    }
+    h2 {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.35rem;
+      margin: 0 0 0.85rem;
+    }
+    h3 { font-size: 1.02rem; margin: 1.1rem 0 0.45rem; }
+    p { margin: 0.5rem 0; }
+    ul, ol { margin: 0.4rem 0 0.6rem 1.2rem; padding: 0; }
+    li { margin: 0.3rem 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin: 0.75rem 0;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.55rem 0.65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--bg-2); font-weight: 600; }
+    code, kbd {
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.86em;
+      background: var(--bg-2);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+    pre {
+      background: var(--code-bg);
+      color: var(--code-fg);
+      padding: 1rem 1.1rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+    pre code { background: none; padding: 0; color: inherit; }
+    .steps { counter-reset: step; list-style: none; margin-left: 0; }
+    .steps li {
+      position: relative;
+      padding: 0.85rem 0.85rem 0.85rem 3rem;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      margin: 0.65rem 0;
+      background: #fff;
+    }
+    .steps li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0.75rem;
+      top: 0.85rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+    }
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eef6f1;
+      padding: 0.85rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 0.85rem 0;
+    }
+    .callout.warn {
+      border-left-color: var(--accent-2);
+      background: #fbf1ea;
+    }
+    .pill {
+      display: inline-block;
+      background: #e3f2eb;
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+    }
+    .pill.cursor {
+      background: #efe8df;
+      color: var(--accent-2);
+    }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow">AIAutomation · Cursor + Copilot</div>
+      <h1>Understand-Anything skills — Cursor &amp; VS Code</h1>
+      <p class="lede">
+        Install and use the nine Understand-Anything agent skills in <strong>Cursor</strong>
+        and in <strong>VS Code / Visual Studio</strong> (GitHub Copilot), then pair them with
+        AIAutomation’s ADO → test → Playwright flow.
+      </p>
+      <nav class="toc" aria-label="On this page">
+        <a href="#install">Install</a>
+        <a href="#use">How to use</a>
+        <a href="#pair">Pair with AIAutomation</a>
+        <a href="#catalog">Catalog</a>
+        <a href="#matrix">Host matrix</a>
+        <a href="#troubleshoot">Troubleshooting</a>
+      </nav>
+    </header>
+
+    <section id="install">
+      <h2>Install</h2>
+      <div class="tabs" role="tablist">
+        <button type="button" class="active" data-tab="cursor" aria-selected="true">Cursor</button>
+        <button type="button" data-tab="vscode" aria-selected="false">VS Code / Visual Studio</button>
+      </div>
+
+      <div id="panel-cursor" class="panel active">
+        <p><span class="pill cursor">Cursor</span> Pick one path — Option A is fastest; Option C is best for analyzing AIAutomation / TaxMesh every day.</p>
+
+        <h3>A) Cursor Settings → Plugins (easiest)</h3>
+        <ol class="steps">
+          <li>Open <strong>Cursor Settings → Plugins</strong>.</li>
+          <li>Paste <code>https://github.com/Egonex-AI/Understand-Anything</code> and add the plugin.</li>
+          <li>Reload Cursor.</li>
+          <li>Open your <strong>target</strong> project → Agent chat → <code>/understand</code>.</li>
+        </ol>
+
+        <h3>B) Clone &amp; open the plugin repo (auto-discovery)</h3>
+        <pre><code>git clone https://github.com/Egonex-AI/Understand-Anything.git
+# File → Open Folder on that clone
+# Cursor reads .cursor-plugin/plugin.json</code></pre>
+        <div class="callout warn">
+          Good for exploring the plugin itself. To analyze <em>other</em> repos, use A or C.
+        </div>
+
+        <h3>C) Personal skills for all projects (recommended with AIAutomation)</h3>
+        <p>Links skills into <code>%USERPROFILE%\.cursor\skills\</code>:</p>
+        <pre><code>git clone https://github.com/Egonex-AI/Understand-Anything.git C:\src\Understand-Anything
+cd C:\src\Understand-Anything
+pnpm install
+pnpm --filter @understand-anything/core build
+pnpm --filter @understand-anything/skill build
+
+cd C:\Project\AIAutomation
+$env:UA_DIR = "C:\src\Understand-Anything"
+.\scripts\install-understand-anything-cursor.ps1</code></pre>
+        <p>Uninstall junctions:</p>
+        <pre><code>.\scripts\install-understand-anything-cursor.ps1 -Uninstall</code></pre>
+      </div>
+
+      <div id="panel-vscode" class="panel">
+        <p><span class="pill">VS Code / Visual Studio</span> Personal path: <code>%USERPROFILE%\.copilot\skills\</code></p>
+        <ol class="steps">
+          <li>
+            Clone &amp; build Understand-Anything:
+            <pre><code>git clone https://github.com/Egonex-AI/Understand-Anything.git
+cd Understand-Anything
+pnpm install
+pnpm --filter @understand-anything/core build
+pnpm --filter @understand-anything/skill build</code></pre>
+          </li>
+          <li>
+            Install for Copilot (platform id is <code>vscode</code> for <strong>both</strong> VS Code and Visual Studio):
+            <pre><code>.\install.ps1 vscode</code></pre>
+            Or:
+            <pre><code>iwr -useb https://raw.githubusercontent.com/Egonex-AI/Understand-Anything/main/install.ps1 | iex
+# choose: vscode</code></pre>
+          </li>
+          <li>Restart the IDE → Copilot <strong>Agent</strong> mode → open target project → <code>/understand</code>.</li>
+        </ol>
+        <div class="callout">
+          Visual Studio has <strong>no</strong> separate installer platform — always use <code>vscode</code>.
+        </div>
+      </div>
+    </section>
+
+    <section id="use">
+      <h2>How to use (Cursor or Copilot)</h2>
+      <ol class="steps">
+        <li>Open the <strong>TARGET</strong> workspace (TaxMesh / app under test / AIAutomation).</li>
+        <li>Open <strong>Agent</strong> chat (Cursor Agent, or Copilot Agent).</li>
+        <li>
+          First analysis:
+          <pre><code>/understand</code></pre>
+          If slash skills are missing:
+          <pre><code>Use the understand skill to analyze this project.</code></pre>
+        </li>
+        <li>
+          After <code>.ua/</code> exists:
+          <pre><code>/understand-dashboard
+/understand-chat How does validation INFO naming work?
+/understand-explain path\to\File.ts
+/understand-diff
+/understand-onboard</code></pre>
+        </li>
+      </ol>
+
+      <h3>Outputs (in the analyzed project)</h3>
+      <table>
+        <thead><tr><th>Path</th><th>Contents</th></tr></thead>
+        <tbody>
+          <tr><td><code>.ua/knowledge-graph.json</code></td><td>Main graph</td></tr>
+          <tr><td><code>.ua/meta.json</code></td><td>Metadata / commit</td></tr>
+          <tr><td><code>.ua/fingerprints.json</code></td><td>Incremental baseline</td></tr>
+          <tr><td><code>.ua/config.json</code></td><td>autoUpdate, language</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Useful flags</h3>
+      <table>
+        <thead><tr><th>Flag</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>--full</code></td><td>Force full rebuild</td></tr>
+          <tr><td><code>--review</code></td><td>LLM graph reviewer</td></tr>
+          <tr><td><code>--language en</code></td><td>Summary language</td></tr>
+          <tr><td><code>--exclude "a/*,b/*"</code></td><td>Extra ignore globs</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="pair">
+      <h2>Pair with AIAutomation</h2>
+      <table>
+        <thead><tr><th>Goal</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td>Map the app under test</td><td>Cursor/Copilot <code>/understand</code> on TaxMesh</td></tr>
+          <tr><td>Change impact</td><td><code>/understand-diff</code></td></tr>
+          <tr><td>ADO PBI → SC/TC → Excel → Playwright</td><td><code>ado-reader</code> / <code>qa-orchestrator</code> (this repo)</td></tr>
+          <tr><td>Export manual cases</td><td><code>npm run ai:export-excel</code></td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        AIAutomation rules stay in <code>.github/copilot-instructions.md</code>
+        (ADO browser login, no PAT, Playwright CLI). Understand-Anything does not replace them.
+      </div>
+    </section>
+
+    <section id="catalog">
+      <h2>Skill catalog (all 9)</h2>
+      <table>
+        <thead><tr><th>Skill</th><th>What it does</th><th>Invoke</th></tr></thead>
+        <tbody>
+          <tr><td><code>understand</code></td><td>Codebase → knowledge graph</td><td><code>/understand</code></td></tr>
+          <tr><td><code>understand-dashboard</code></td><td>Interactive dashboard</td><td><code>/understand-dashboard</code></td></tr>
+          <tr><td><code>understand-chat</code></td><td>Q&amp;A over graph</td><td><code>/understand-chat …</code></td></tr>
+          <tr><td><code>understand-diff</code></td><td>Diff / PR impact</td><td><code>/understand-diff</code></td></tr>
+          <tr><td><code>understand-explain</code></td><td>File / module deep-dive</td><td><code>/understand-explain &lt;path&gt;</code></td></tr>
+          <tr><td><code>understand-onboard</code></td><td>Onboarding guide</td><td><code>/understand-onboard</code></td></tr>
+          <tr><td><code>understand-domain</code></td><td>Domain / flow graph</td><td><code>/understand-domain</code></td></tr>
+          <tr><td><code>understand-knowledge</code></td><td>Wiki → graph</td><td><code>/understand-knowledge</code></td></tr>
+          <tr><td><code>understand-figma</code></td><td>Figma → design graph</td><td><code>/understand-figma</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="matrix">
+      <h2>Host matrix</h2>
+      <table>
+        <thead>
+          <tr><th>Topic</th><th>Cursor</th><th>VS Code Copilot</th><th>Visual Studio</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Plugins UI</td>
+            <td>Settings → Plugins + repo URL</td>
+            <td>Marketplace / <code>.copilot-plugin</code></td>
+            <td>N/A</td>
+          </tr>
+          <tr>
+            <td>Auto-discover plugin repo</td>
+            <td><code>.cursor-plugin/plugin.json</code></td>
+            <td><code>.copilot-plugin/plugin.json</code></td>
+            <td>Not documented</td>
+          </tr>
+          <tr>
+            <td>Personal skills folder</td>
+            <td><code>~/.cursor/skills</code></td>
+            <td><code>~/.copilot/skills</code></td>
+            <td><code>~/.copilot/skills</code></td>
+          </tr>
+          <tr>
+            <td>Helper in AIAutomation</td>
+            <td><code>scripts/install-understand-anything-cursor.ps1</code></td>
+            <td>upstream <code>install.ps1 vscode</code></td>
+            <td>same as VS Code</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="troubleshoot">
+      <h2>Troubleshooting</h2>
+      <ul>
+        <li><strong>Cursor doesn’t see skills</strong> — Use Settings → Plugins with the GitHub URL, or run <code>install-understand-anything-cursor.ps1</code>, then reload.</li>
+        <li><strong>Slash commands missing</strong> — Ask in plain language: “Use the understand skill…”</li>
+        <li><strong>Wrong project analyzed</strong> — Open the target app as the workspace root first.</li>
+        <li><strong>Core import errors</strong> — Rebuild with pnpm filters in the Understand-Anything clone.</li>
+        <li><strong>VS / VS Code</strong> — Always <code>install.ps1 vscode</code> (no separate Visual Studio platform).</li>
+      </ul>
+    </section>
+
+    <footer>
+      Markdown: <code>docs/understand-anything-skills.md</code> ·
+      Cursor script: <code>scripts/install-understand-anything-cursor.ps1</code> ·
+      Upstream: <a href="https://github.com/Egonex-AI/Understand-Anything" target="_blank" rel="noreferrer">Egonex-AI/Understand-Anything</a>
+    </footer>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.tabs button');
+    const panels = {
+      cursor: document.getElementById('panel-cursor'),
+      vscode: document.getElementById('panel-vscode'),
+    };
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => {
+          b.classList.toggle('active', b === btn);
+          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+        Object.entries(panels).forEach(([key, el]) => {
+          el.classList.toggle('active', key === btn.dataset.tab);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

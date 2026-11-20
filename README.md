@@ -4,7 +4,9 @@ GitHub Copilot–driven **Playwright (TypeScript)** framework that connects **Az
 
 **Browser login (no PAT) → PBI → manual cases → [GATE a] → Test Plan → site analysis → [GATE b] → UI specs → run → traceability**
 
-Full diagrams and asset map: **[docs/WORKFLOW.md](docs/WORKFLOW.md)**
+Full diagrams and asset map: **[docs/WORKFLOW.md](docs/WORKFLOW.md)**  
+Understand-Anything skills (**Cursor** + VS Code): **[docs/understand-anything-guide.html](docs/understand-anything-guide.html)** · [skills markdown](docs/understand-anything-skills.md)  
+Cursor personal skills helper: `scripts/install-understand-anything-cursor.ps1`
 
 ---
 
